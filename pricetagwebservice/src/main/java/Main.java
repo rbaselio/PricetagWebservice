@@ -9,6 +9,7 @@ import org.eclipse.jetty.servlet.*;
 import com.google.gson.Gson;
 
 import placesObjects.GooglePlace;
+import placesObjects.MyPlacesJson;
 import utils.GsonPlaces;
 
 import java.net.URI;
@@ -61,10 +62,14 @@ public class Main extends HttpServlet {
 	  place = json.getAllPlaces(coordenadas);
 	  place.setDistances(coordenadas);
 	  
+	  MyPlacesJson myplaces = new MyPlacesJson();
+	  myplaces.setMyplacesList(place.getResult());
+	  
+	  
 	  Gson g = new Gson();
 	  resp.setContentType("application/json; charset=UTF-8");           
       resp.setHeader("Cache-Control", "no-cache");
-      resp.getWriter().write(g.toJson(place.getResult()));
+      resp.getWriter().write(g.toJson(myplaces));
       
   }
   
