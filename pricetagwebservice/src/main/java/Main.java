@@ -23,6 +23,31 @@ public class Main extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws   ServletException, IOException {
+		
+		
+		req.getParameterMap()
+		
+		Connection connection = null;
+	    try {
+	      connection = getConnection();
+
+	      Statement stmt = connection.createStatement();
+	      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
+	      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+	      
+	    } catch (Exception e) {
+	     
+	    } finally {
+	      if (connection != null) try{connection.close();} catch(SQLException e){}
+	    
+		}
+  }
+	
+	
+	
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -50,6 +75,8 @@ public class Main extends HttpServlet {
 
   private void showJson(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+	  
+	  
 	  
 	  double lat = Double.parseDouble(req.getParameter("lat"));
 	  double lng = Double.parseDouble(req.getParameter("lng"));
