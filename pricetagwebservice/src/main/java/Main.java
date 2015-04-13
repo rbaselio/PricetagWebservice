@@ -28,7 +28,7 @@ public class Main extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws   ServletException, IOException {
 		
 		
-		req.getParameterMap()
+		req.getParameterMap();
 		
 		Connection connection = null;
 	    try {
