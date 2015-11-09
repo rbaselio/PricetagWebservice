@@ -1,2 +1,3 @@
 heroku auth:token        ac5e4857-1c4b-437f-bee5-32fb3f832dfd
 heroku:deploy-war
+refazer
