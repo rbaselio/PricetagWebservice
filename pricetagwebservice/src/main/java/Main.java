@@ -1,20 +1,31 @@
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.*;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.google.gson.Gson;
 
 import placesObjects.GooglePlace;
 import placesObjects.MyPlacesJson;
+import testes.Cliente;
+import testes.ClienteService;
+import testes.EntityManagerUtil;
 import utils.GsonPlaces;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.*;
 
 
 public class Main extends HttpServlet {
@@ -102,7 +113,39 @@ public class Main extends HttpServlet {
   
 
   private void showDatabase(HttpServletRequest req, HttpServletResponse resp)   throws ServletException, IOException {
-    Connection connection = null;
+	  Random gerador = new Random();
+		EntityManagerUtil.criarConexão();
+		
+		ClienteService clienteService = new ClienteService();
+		
+		Cliente cliente = null;
+		
+		for (int i = 0; i < 10; i++) {
+			cliente = new Cliente();
+			cliente.setEndereco("Rua " + gerador.nextInt());
+			cliente.setNome("Usuario " + gerador.nextInt());
+			cliente.setNasc(new Date(Math.abs(System.currentTimeMillis() - gerador.nextInt())));
+			
+			clienteService.persist(cliente);
+		}
+		
+		List<Cliente> todosClientes = clienteService.findName("Usuario", true);
+		
+		StringBuffer out = new StringBuffer(); 
+		
+		for (Cliente pessoa : todosClientes) {
+			out.append("Read from DB: ");
+			out.append(pessoa);
+			out.append("\n");
+
+		}
+		resp.getWriter().print(out);
+		
+		
+		EntityManagerUtil.fechaConexao();
+	  
+	  
+	  /*Connection connection = null;
     try {
       connection = getConnection();
 
@@ -121,7 +164,7 @@ public class Main extends HttpServlet {
       resp.getWriter().print("There was an error: " + e.getMessage());
     } finally {
       if (connection != null) try{connection.close();} catch(SQLException e){}
-    }
+    }*/
   }
 
   private Connection getConnection() throws URISyntaxException, SQLException {
