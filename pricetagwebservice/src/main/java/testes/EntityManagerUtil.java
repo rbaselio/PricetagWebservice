@@ -8,7 +8,7 @@ public class EntityManagerUtil {
 	private static EntityManagerFactory emf;
 	
 	public static void criarConexão(){		
-			emf = Persistence.createEntityManagerFactory("LojaVirtualPu");
+			emf = Persistence.createEntityManagerFactory("Webservice");
 	}
 	
 	public static EntityManager criarEntityManager (){

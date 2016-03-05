@@ -1,3 +1,4 @@
-heroku auth:token        ac5e4857-1c4b-437f-bee5-32fb3f832dfd
-heroku:deploy-war
-refazer
+GOAL - heroku:deploy-war
+
+heroku auth:token
+variable HEROKU_API_KEY = 8ca41b0d-ae34-4d10-a0c0-0d619b37d60b
